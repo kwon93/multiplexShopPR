@@ -3,10 +3,12 @@ package backend.shop.com.multiplexshop.domain.member.controller;
 import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
 import backend.shop.com.multiplexshop.domain.delivery.service.DeliveryService;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
+import backend.shop.com.multiplexshop.domain.member.entity.Role;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.member.service.MemberService;
 import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,29 @@ public class MemberViewController {
     private final MemberService memberService;
     private final OrderService orderService;
     private final DeliveryService deliveryService;
+
+
+    @PostConstruct
+    public void adminInit(){
+
+        Member adminUser = Member.builder()
+                .memberId(99L)
+                .memberEmailId("admin@naver.com")
+                .password("abc123")
+                .memberName("admin")
+                .role(Role.ADMIN)
+                .build();
+
+        Member testUser = Member.builder()
+                .memberId(98L)
+                .memberEmailId("test@naver.com")
+                .password("abc123")
+                .memberName("kwon")
+                .role(Role.USER)
+                .build();
+
+        memberRepository.saveAll(List.of(adminUser,testUser));
+    }
 
     @GetMapping("/join")
     public String getJoinView(@RequestParam(required = false) Long id, Model model){

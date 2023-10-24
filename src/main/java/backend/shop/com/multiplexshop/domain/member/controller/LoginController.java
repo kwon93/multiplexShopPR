@@ -3,7 +3,9 @@ package backend.shop.com.multiplexshop.domain.member.controller;
 import backend.shop.com.multiplexshop.domain.config.interceptor.SessionConst;
 import backend.shop.com.multiplexshop.domain.member.dto.LoginDTO;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
+import backend.shop.com.multiplexshop.domain.member.entity.Role;
 import backend.shop.com.multiplexshop.domain.member.service.LoginService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
 
     private final LoginService loginService;
+
 
 
 

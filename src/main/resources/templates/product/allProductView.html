@@ -11,7 +11,10 @@
             <div class="food_coner">
                 <h1>A L L</h1>
                 <h2>F O O D</h2>
-                <button style="background: transparent; border: 1px solid black;" ><a th:href="@{/products/createProducts}">P O S T</a></button>
+                <button th:value="${session.loginUser.role}"
+                        style="background: transparent; border: 1px solid black;" class="postBtn">
+                    <a th:href="@{/products/createProducts}">P O S T</a>
+                </button>
 
                 <form class="all_search_box">
                     <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
@@ -58,10 +61,17 @@
 
     </th:block>
 </th:block>
-    <script>
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        let roleValue = /*[[${session.loginUser.role}]]*/ '';
 
-    </script>
+        let postButton = document.querySelector('.postBtn');
 
+        if (roleValue !== 'ADMIN' || roleValue === null) {
+            postButton.style.display = 'none';
+        }
+    });
+</script>
 </body>
 
 </html>

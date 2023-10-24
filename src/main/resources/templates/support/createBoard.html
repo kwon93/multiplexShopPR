@@ -9,6 +9,10 @@
     <div class="right_contents">
         <!-- 공지사항 본문 -->
         <div th:object="${Board}" class="notice_contents">
+            <select id="typeSelect">
+                <option value="NOTICE">NOTICE</option>
+                <option value="POST">POST</option>
+            </select>
             <input type="hidden" class="txt_tit_notice" name="boardId" id="boardId" th:value="${Board.boardId}">
             <input type="hidden" class="txt_tit_notice" name="boardType" id="boardType" th:value="${Board.boardType}">
             <p>
@@ -41,7 +45,17 @@
 </th:block>
 
 <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
-<script>
+<script th:inline="javascript">
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let roleValue = /*[[${session.loginUser.role}]]*/ '';
+
+        let typeSelectArea = document.querySelector('#typeSelect');
+
+        if (roleValue !== 'ADMIN') {
+            typeSelectArea.style.display = 'none';
+        }
+    });
 
     const postBtn = document.getElementById('post_btn');
  if(postBtn){
@@ -54,6 +68,7 @@
              body: JSON.stringify({
                  memberId : document.getElementById('memberId').value,
                  boardTitle : document.getElementById('boardTitle').value,
+                 boardType : document.getElementById('typeSelect').value,
                  boardContent : document.getElementById('boardContent').value
              })
          })

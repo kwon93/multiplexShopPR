@@ -5,7 +5,7 @@
     <th:block th:fragment="contentFrag">
         <article id="article">
             <div class="join_box">
-                <h2><span>USER</span>님의 장바구니입니다.</h2>
+                <h2><span th:text="${session.loginUser.memberName}">USER</span>님의 장바구니입니다.</h2>
                 <h3 style="text-align: left; margin-left: 20px;" th:if="${not #lists.isEmpty(dto)}">
                     O R D E R S (주문 내역이 있을시에만 보이는 박스 )
                 </h3>

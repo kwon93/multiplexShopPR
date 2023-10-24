@@ -39,7 +39,7 @@ public class Board extends BaseEntity {
 
         @Enumerated(EnumType.STRING)
         @Column(length = 10,columnDefinition = "varchar(10) default 'POST'")
-        private BoardType boardType = BoardType.POST;
+        private BoardType boardType;
         /**
          *  비즈니스 로직 : 게시물 수정
          */
@@ -48,8 +48,9 @@ public class Board extends BaseEntity {
                 this.boardContent = updateContent;
         }
         @Builder
-        public Board(Long boardId,Member member, String boardTitle, String boardContent, String memberName){
+        public Board(Long boardId,Member member, String boardTitle, String boardContent, String memberName, BoardType boardType){
                 this.boardId = boardId;
+                this.boardType = boardType;
                 this.boardTitle = boardTitle;
                 this.boardContent = boardContent;
                 this.memberName = member.getMemberName();

@@ -176,7 +176,9 @@ public class BoardService {
     public Board dtoToBoardEntity(BoardRequestDTO boardRequestDTO) {
         Member member = memberRepository.findById(boardRequestDTO.getMemberId())
             .orElseThrow(()->new IllegalArgumentException("Member not found"));
+
         return Board.builder()
+                .boardType(boardRequestDTO.getBoardType())
                 .boardTitle(boardRequestDTO.getBoardTitle())
                 .boardContent(boardRequestDTO.getBoardContent())
                 .member(member)

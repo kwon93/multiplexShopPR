@@ -43,12 +43,14 @@ public class BoardDTOs {
         private Long memberId;
         private String boardTitle;
         private String boardContent;
+        private BoardType boardType;
 
         @Builder
-        public  BoardRequestDTO(Long memberId,String boardTitle,String boardContent, String boardType){
+        public BoardRequestDTO(Long memberId,String boardTitle,String boardContent, BoardType boardType){
             this.memberId = memberId;
             this.boardTitle = boardTitle;
             this.boardContent = boardContent;
+            this.boardType = boardType;
         }
     }
 
