@@ -12,10 +12,12 @@
                         <option value="STUFF">STUFF</option>
                     </select>
                     <p>
-                    <h3> 상품명 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productName">
+                        <h3> 상품명 : </h3>
+                        <input class="txt_tit_notice" style="width: 400px;" id="productName">
                     </p>
+                        <div th:if="${#field.hasErrors('productName')}">잘못된 요청입니다.</div>
                     <p>
-                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="stockQuantity">
+                        <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="stockQuantity">
                     </p>
                     <p>
                     <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productPrice">

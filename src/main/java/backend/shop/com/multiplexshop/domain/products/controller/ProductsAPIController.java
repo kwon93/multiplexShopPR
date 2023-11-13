@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
@@ -20,9 +22,13 @@ public class ProductsAPIController {
     private final ProductsService productsService;
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
+    public ResponseEntity<?> postProducts(@RequestBody @Validated ProductsRequestDTO productsRequestDTO,
+                                                            BindingResult bindingResult){
+
         ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO);
-        log.info("dto = {}", responseDTO.getProductScript());
+        if (bindingResult.hasErrors()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("유효성 검증 오류~");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
