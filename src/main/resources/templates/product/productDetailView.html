@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+    <article id="article">
+        <div class="proudct">
+            <div class="product_btns">
+                <a th:href="@{/products/modifyProducts/{productId}(productId=${product.id})}">
+                <button>M O D I F Y</button>
+                </a>
+                <button id="dlt_btn">D E L E T E</button>
+                <a th:href="@{/products}">
+                    <button> L I S T </button>
+                </a>
+                <input type="hidden" th:value="${product.id}" class="productId">
+                <input type="hidden" th:value="${session.loginUser.memberId}" id="memberId">
+            </div>
+
+            <div class="detail_box">
+                <div class="product_img">
+                    <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
+                </div>
+
+                <div class="product_info">
+                    <p class="product_name">[[${product.productName}]]</p>
+                    <select class="product_select">
+                        <option>- SELECT 1 -</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                    <br>
+
+                    <select class="product_select">
+                        <option>- SELECT 2 -</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+
+                    <br>
+                    <button class="minusBtn"><</button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
+                    <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
+                    <div class="order_btns">
+                        <button id="cart_btn">장바구니</button>
+<!--                        <a th:href="@{/order}"><button id="order_btn">주문하기</button></a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="product_info_img">
+                <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
+                <p th:text="${product.productScript}">정말 좋은 향수네요.</p>
+            </div>
+        </div>
+    </article>
+
+    <!-- article -->
+
+    </th:block>
+</th:block>
+
+    <script>
+        let quantity = document.querySelector('.quantity');
+        let plusBtn = document.querySelector('.plusBtn');
+        let minusBtn = document.querySelector('.minusBtn');
+        let price = document.querySelector('.price');
+        let q = 1;
+
+        let qinit = document.querySelector('.price');
+        let dlt_btn = document.querySelector('#dlt_btn');
+        
+        let cart_btn = document.querySelector('#cart_btn');
+        let order_btn = document.querySelector('#order_btn');
+        
+        const plusq = parseInt(qinit.textContent);
+
+        plusBtn.addEventListener('click', e => {
+        
+            if (q < 10) {
+                ++q;
+                quantity.innerHTML = q;
+                plusTotalPrice();
+            }else{
+                alert("구매 개수를 초과하셨습니다.")
+            }
+
+            
+        })
+
+        minusBtn.addEventListener('click', e => {
+            if (q > 1) {
+                --q;
+                quantity.innerHTML = q;
+                minusTotalPrice();
+            }
+        })
+
+        function plusTotalPrice() {
+            let totalPrice = parseInt(price.textContent) + plusq;
+            console.log(totalPrice);
+            price.innerHTML = totalPrice;
+        }
+
+        function minusTotalPrice() {
+            let totalPrice = parseInt(price.textContent) - plusq;
+            console.log(totalPrice);
+            price.innerHTML = totalPrice;
+        }
+
+        let dltId = document.querySelector('.productId').value;
+
+        if (dlt_btn) {
+            dlt_btn.addEventListener('click', event => {
+                if (!confirm("정말 삭제 하시겠습니까?")) {
+                         return;
+                }
+            fetch(`/api/products/${dltId}`, {method: 'DELETE'})
+        .then(() => {
+            alert('삭제가 완료되었습니다.');
+            location.replace('/products');
+                })
+            });
+        }
+
+        if(cart_btn){
+            cart_btn.addEventListener('click',e => {
+                fetch(`/api/cart`, 
+                    {
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body : JSON.stringify({
+                            productsId : document.querySelector('.productId').value,
+                            memberId : document.getElementById('memberId').value,
+                            count : quantity.innerHTML
+                        })
+                    }
+                )
+                .then(()=>{
+                    alert("장바구니에 담겼습니다.");
+                })
+            })
+        }
+
+        if(order_btn){
+            order_btn.addEventListener('click', e => {
+                fetch(`/api/cart`,
+                    {
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            productsId : document.querySelector('.productId').value,
+                            memberId : document.getElementById('memberId').value,
+                            count : document.querySelector('.quantity').value
+                        })
+                    }
+                )
+                .then(()=>{
+                    location.replace('')
+                })
+            })
+        }
+
+
+    </script>
+
+</body>
+
+</html>

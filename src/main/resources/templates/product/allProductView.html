@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+    <article id="article">
+        <div class="all_product_box">
+
+
+            <div class="food_coner">
+                <h1>A L L</h1>
+                <h2>F O O D</h2>
+                <button th:value="${session.loginUser.role}"
+                        style="background: transparent; border: 1px solid black;" class="postBtn">
+                    <a th:href="@{/products/createProducts}">P O S T</a>
+                </button>
+
+                <form class="all_search_box">
+                    <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
+                    <select id="foodSelect" name="foodCategory">
+                        <option value="ALL">ALL</option>
+                        <option value="FOOD">FOOD</option>
+                        <option value="STUFF">STUFF</option>
+                    </select>
+                    <input type="text" class="search_input">
+                    <input type="submit" value="Search">
+                </form>
+                
+                <div class="thumbnail_img">
+                    <div class="products" th:each="item, iterStat : ${food}" th:if="${iterStat.index lt 3}">
+                        <a th:href="@{/products/{id}(id=${item.id})}">
+                                <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
+                        </a>
+                        <p th:text="${item.productName}">상품 이름</p>
+                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="">
+
+            <div class="stuff_coner">
+                <h2 style="margin-bottom: 100px;">S T U F F</h2>
+                <div class="thumbnail_img">
+                    <div class="products" th:each="item, iterStat : ${stuff}" th:if="${iterStat.index lt 3}">
+                        <a th:href="@{/products/{id}(id=${item.id})}">
+                            <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
+                        </a>
+                        <p th:text="${item.productName}">상품 이름</p>
+                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </article>
+
+    <!-- article -->
+
+    </th:block>
+</th:block>
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        let roleValue = /*[[${session.loginUser.role}]]*/ '';
+
+        let postButton = document.querySelector('.postBtn');
+
+        if (roleValue !== 'ADMIN' || roleValue === null) {
+            postButton.style.display = 'none';
+        }
+    });
+</script>
+</body>
+
+</html>
