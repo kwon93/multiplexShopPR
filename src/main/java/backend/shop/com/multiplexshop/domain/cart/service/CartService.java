@@ -29,6 +29,7 @@ public class CartService {
     private final ProductsRepository productsRepository;
 
 
+    @Transactional
     public CartResponseDTO createCartWithProductsByRequest(CartRequestDTO request) {
         Member findMember = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));

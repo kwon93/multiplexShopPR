@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://localhost:3306/sys
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: sys123
+    password: Sys123!@
   jpa:
     hibernate:
       ddl-auto: none
@@ -35,9 +35,9 @@ spring:
 
 
 file:
-  dir: C:\Users\wjdrn\Desktop\test\
+  dir: /home/ec2-user/picture/
 
-webpath: file:\Users\wjdrn\Desktop\test\
+webpath: file:/home/ec2-user/picture/
 
 
 

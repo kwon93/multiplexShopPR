@@ -2,8 +2,6 @@ package backend.shop.com.multiplexshop.domain.products.dto;
 
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +16,8 @@ public class ProductsDTOs {
     @NoArgsConstructor
     public static class ProductsRequestDTO{
         private Long id;
-        @NotBlank(message = "상품명을 올바르게 입력해주세요.")
         private String productName;
-        @Positive(message = "100원 이상의 올바른 가격을 적어주세요.")
         private Integer productPrice;
-        @Positive(message = "재고는 1개 이상이여야 합니다.")
         private Integer stockQuantity;
         private String selectTag1;
         private String selectTag2;

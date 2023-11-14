@@ -45,6 +45,7 @@ public class CommentService {
                 .toList();
     }
 
+    @Transactional
     public Comment save(CommentRequestDTO commentRequestDTO){
         Member member = getMemberByMemberId(commentRequestDTO);
         Board board = getBoardByBoardId(commentRequestDTO);

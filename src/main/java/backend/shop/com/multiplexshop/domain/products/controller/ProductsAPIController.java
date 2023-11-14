@@ -22,13 +22,10 @@ public class ProductsAPIController {
     private final ProductsService productsService;
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<?> postProducts(@RequestBody @Validated ProductsRequestDTO productsRequestDTO,
-                                                            BindingResult bindingResult){
+    public ResponseEntity<?> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
 
         ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO);
-        if (bindingResult.hasErrors()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("유효성 검증 오류~");
-        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 

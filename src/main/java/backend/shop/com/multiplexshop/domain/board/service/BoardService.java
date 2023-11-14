@@ -138,6 +138,7 @@ public class BoardService {
      * @param boardRequestDTO (등록할 게시물 정보)
      * @return Board
      */
+    @Transactional
     public Board save(BoardRequestDTO boardRequestDTO) {
         return boardRepository.save(dtoToBoardEntity(boardRequestDTO));
     }
